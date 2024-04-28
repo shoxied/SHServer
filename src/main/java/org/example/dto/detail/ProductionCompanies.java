@@ -1,4 +1,4 @@
-package org.example.testdto;
+package org.example.dto.detail;
 
 import lombok.*;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -8,14 +8,10 @@ import org.springframework.data.elasticsearch.annotations.Field;
 @Getter
 @Setter
 @Builder
-public class SpokenLanguages {
+public class ProductionCompanies {
 
-    @Field
-    private String english_name;
-
-    @Field
-    private String  iso_639_1;
-
-    @Field
+    private int id;
+    private String logo_path;
     private String name;
+    private String origin_country;
 }

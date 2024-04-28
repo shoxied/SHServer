@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.dao;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -13,30 +13,24 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@Document(indexName = "detail", writeTypeHint = WriteTypeHint.DEFAULT)
-public class Film {
+@Document(indexName = "films", writeTypeHint = WriteTypeHint.DEFAULT)
+public class FilmDao {
+
+    @Id
+    @Field
+    private Integer id;
 
     @Field
     private boolean adult;
 
     @Field
-    private String backdropBase64;
-
-    @Field
     private long budget;
 
     @Field
-    private List<Genres> genres;
-
-    @Id
-    @Field
-    private Long id;
+    private List<String> genres;
 
     @Field
-    private String originalLanguage;
-
-    @Field
-    private String originalTitle;
+    private String original_title;
 
     @Field
     private String overview;
@@ -45,16 +39,16 @@ public class Film {
     private double popularity;
 
     @Field
-    private String posterBase64;
+    private String poster;
 
     @Field
-    private List<ProductionCompanies> productionCompanies;
+    private List<String> production_companies;
 
     @Field
-    private List<ProductionCountries> productionCountries;
+    private List<String> production_countries;
 
     @Field
-    private String releaseDate;
+    private String release_date;
 
     @Field
     private int revenue;
@@ -63,23 +57,14 @@ public class Film {
     private int runtime;
 
     @Field
-    private List<SpokenLanguages> spokenLanguages;
-
-    @Field
     private String status;
-
-    @Field
-    private String tagline;
 
     @Field
     private String title;
 
     @Field
-    private boolean video;
+    private double vote_average;
 
     @Field
-    private double voteAverage;
-
-    @Field
-    private int voteCount;
+    private int vote_count;
 }

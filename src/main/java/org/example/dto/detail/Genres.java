@@ -1,7 +1,6 @@
-package org.example.testdto;
+package org.example.dto.detail;
 
 import lombok.*;
-import org.springframework.data.elasticsearch.annotations.Field;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -10,9 +9,6 @@ import org.springframework.data.elasticsearch.annotations.Field;
 @Builder
 public class Genres {
 
-    @Field
     private int id;
-
-    @Field
     private String name;
 }

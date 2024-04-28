@@ -1,7 +1,6 @@
-package org.example.testdto;
+package org.example.dto.detail;
 
 import lombok.*;
-import org.springframework.data.elasticsearch.annotations.Field;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -10,15 +9,8 @@ import org.springframework.data.elasticsearch.annotations.Field;
 @Builder
 public class BelongsToCollection {
 
-    @Field
-    private Object backdrop_path;
-
-    @Field
     private int id;
-
-    @Field
     private String name;
-
-    @Field
     private String poster_path;
+    private String backdrop_path;
 }

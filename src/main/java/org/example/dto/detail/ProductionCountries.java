@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.dto.detail;
 
 import lombok.*;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -8,11 +8,8 @@ import org.springframework.data.elasticsearch.annotations.Field;
 @Getter
 @Setter
 @Builder
-public class Genres {
+public class ProductionCountries {
 
-    @Field
-    private int id;
-
-    @Field
+    private String iso_3166_1;
     private String name;
 }
