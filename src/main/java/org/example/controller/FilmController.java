@@ -17,8 +17,9 @@ public class FilmController {
 
     private final FilmServiceImpl filmService;
     @GetMapping(value = "films",produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<FilmDao> films(@RequestParam(name = "name", required = false) String name){
-        return filmService.getFilms(name);
+    public List<FilmDao> films(@RequestParam(name = "name", required = false) String name,
+                               @RequestParam(name = "page", required = false) Integer page){
+        return filmService.getFilms(name, page);
     }
 
     @PostMapping(value = "addFilm", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -26,8 +27,8 @@ public class FilmController {
         filmService.addFilm(filmDetail);
     }
 
-    @GetMapping(value = "addFilms", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addFilm() throws IOException {
+    @GetMapping(value = "addFilms")
+    public void addFilms() throws IOException {
         filmService.addManyFilms();
     }
 }

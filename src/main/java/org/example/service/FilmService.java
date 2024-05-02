@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface FilmService {
-    List<FilmDao> getFilms(String name);
+    List<FilmDao> getFilms(String name, Integer page);
 
     void addFilm(FilmDetail filmDetail) throws IOException;
 

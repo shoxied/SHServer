@@ -2,9 +2,7 @@ package org.example.dao;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.WriteTypeHint;
+import org.springframework.data.elasticsearch.annotations.*;
 
 import java.util.List;
 
@@ -14,16 +12,17 @@ import java.util.List;
 @Setter
 @Builder
 @Document(indexName = "films", writeTypeHint = WriteTypeHint.DEFAULT)
+@Setting(settingPath = "stemmer/stemmer-settings.json")
 public class FilmDao {
 
     @Id
-    @Field
+    @Field(name = "id", type = FieldType.Integer)
     private Integer id;
 
-    @Field
+    @Field(name = "adult", type = FieldType.Keyword)
     private boolean adult;
 
-    @Field
+    @Field(name = "budget", type = FieldType.Keyword)
     private long budget;
 
     @Field
@@ -59,7 +58,7 @@ public class FilmDao {
     @Field
     private String status;
 
-    @Field
+    @Field(name = "title", type = FieldType.Text, analyzer = "en-ru")
     private String title;
 
     @Field
