@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -63,6 +64,12 @@ public class FilmServiceImpl implements FilmService {
         searchHits =  elasticsearchOperations.search(nativeQuery, FilmDao.class);
         log.info("блаблабла");
         return searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
+    }
+
+    @Override
+    public FilmDao getFilmById(Integer id) {
+        Optional<FilmDao> filmDao = filmRepo.findById(id);
+        return filmDao.get();
     }
 
     @Override

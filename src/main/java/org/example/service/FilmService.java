@@ -9,6 +9,8 @@ import java.util.List;
 public interface FilmService {
     List<FilmDao> getFilms(String name, Integer page);
 
+    FilmDao getFilmById(Integer id);
+
     void addFilm(FilmDetail filmDetail) throws IOException;
 
     void addManyFilms() throws IOException;

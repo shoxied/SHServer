@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/dada")
+@RequestMapping("api/v1")
 @RequiredArgsConstructor
 public class FilmController {
 
@@ -20,6 +20,11 @@ public class FilmController {
     public List<FilmDao> films(@RequestParam(name = "name", required = false) String name,
                                @RequestParam(name = "page", required = false) Integer page){
         return filmService.getFilms(name, page);
+    }
+
+    @GetMapping(value = "filmById",produces = MediaType.APPLICATION_JSON_VALUE)
+    public FilmDao films(@RequestParam(name = "id", required = true) Integer id){
+        return filmService.getFilmById(id);
     }
 
     @PostMapping(value = "addFilm", consumes = MediaType.APPLICATION_JSON_VALUE)
