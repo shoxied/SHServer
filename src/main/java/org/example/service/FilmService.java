@@ -1,5 +1,6 @@
 package org.example.service;
 
+import org.example.dao.FilmFavorite;
 import org.example.dto.detail.FilmDetail;
 import org.example.dao.FilmDao;
 
@@ -14,4 +15,10 @@ public interface FilmService {
     void addFilm(FilmDetail filmDetail) throws IOException;
 
     void addManyFilms() throws IOException;
+
+    void addToFavorite(Integer id);
+
+    void deleteFromFavorite(Integer id);
+
+    List<FilmFavorite> getFavoriteFilms();
 }

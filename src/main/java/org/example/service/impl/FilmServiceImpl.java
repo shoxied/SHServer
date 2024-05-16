@@ -4,16 +4,19 @@ import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dao.FilmDao;
+import org.example.dao.FilmFavorite;
 import org.example.dto.detail.FilmDetail;
 import org.example.dto.detail.Genres;
 import org.example.dto.detail.ProductionCompanies;
 import org.example.dto.detail.ProductionCountries;
 import org.example.dto.small.FilmItem;
 import org.example.dto.small.FilmItemList;
+import org.example.repo.FilmFavoriteRepo;
 import org.example.repo.FilmRepo;
 import org.example.service.FilmService;
 import org.example.service.RequestService;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -32,6 +35,7 @@ import java.util.Optional;
 public class FilmServiceImpl implements FilmService {
 
     private final FilmRepo filmRepo;
+    private final FilmFavoriteRepo filmFavoriteRepo;
     private final ElasticsearchOperations elasticsearchOperations;
     private final RequestService requestService;
 
@@ -50,7 +54,7 @@ public class FilmServiceImpl implements FilmService {
         nativeQuery = builder.withQuery(q -> q.bool(bool -> {
                     bool.must(must -> {
                         if (StringUtils.isNotBlank(name)) {
-                            must.match(m -> m.field("name").query(name));
+                            must.match(m -> m.field("title").query(name));
                         } else {
                             must.matchAll(m -> m);
                         }
@@ -58,11 +62,11 @@ public class FilmServiceImpl implements FilmService {
                     });
                     return bool;
                 }))
+                .withSort(Sort.by(Sort.Order.by("_score")))
                 .withPageable(PageRequest.of(page - 1, 10))
                 .build();
 
         searchHits =  elasticsearchOperations.search(nativeQuery, FilmDao.class);
-        log.info("блаблабла");
         return searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
     }
 
@@ -173,5 +177,51 @@ public class FilmServiceImpl implements FilmService {
                 log.info("saved film with id {}", filmDao.getId());
             }
         }
+    }
+
+    @Override
+    public void addToFavorite(Integer id) {
+        Optional<FilmDao> filmDao = filmRepo.findById(id);
+        FilmDao fd = filmDao.get();
+
+        FilmFavorite filmFavorite = FilmFavorite.builder()
+                .id(fd.getId())
+                .budget(fd.getBudget())
+                .genres(fd.getGenres())
+                .original_title(fd.getOriginal_title())
+                .overview(fd.getOverview())
+                .popularity(fd.getPopularity())
+                .poster(fd.getPoster())
+                .production_companies(fd.getProduction_companies())
+                .production_countries(fd.getProduction_countries())
+                .release_date(fd.getRelease_date())
+                .revenue(fd.getRevenue())
+                .runtime(fd.getRuntime())
+                .status(fd.getStatus())
+                .title(fd.getTitle())
+                .vote_average(fd.getVote_average())
+                .vote_count(fd.getVote_count())
+                .build();
+
+        filmFavoriteRepo.save(filmFavorite);
+    }
+
+    @Override
+    public void deleteFromFavorite(Integer id) {
+        filmFavoriteRepo.deleteById(id);
+    }
+
+    @Override
+    public List<FilmFavorite> getFavoriteFilms() {
+        NativeQueryBuilder builder = new NativeQueryBuilder();
+        SearchHits<FilmFavorite> searchHits;
+        NativeQuery nativeQuery;
+
+        nativeQuery = builder.withQuery(q -> q.bool(b -> b))
+                .withSort(Sort.by(Sort.Order.by("_score")))
+                .build();
+
+        searchHits =  elasticsearchOperations.search(nativeQuery, FilmFavorite.class);
+        return searchHits.getSearchHits().stream().map(SearchHit::getContent).toList();
     }
 }

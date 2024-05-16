@@ -3,6 +3,8 @@ package org.example;
 
 import org.example.controller.FilmController;
 import org.example.dto.detail.FilmDetail;
+import org.example.repo.FilmFavoriteRepo;
+import org.example.repo.FilmRepo;
 import org.example.service.impl.FilmServiceImpl;
 import org.example.service.impl.RequestServiceImpl;
 import org.springframework.boot.SpringApplication;

@@ -2,6 +2,7 @@ package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dao.FilmDao;
+import org.example.dao.FilmFavorite;
 import org.example.service.impl.FilmServiceImpl;
 import org.example.dto.detail.FilmDetail;
 import org.springframework.http.MediaType;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1")
 @RequiredArgsConstructor
+@CrossOrigin
 public class FilmController {
 
     private final FilmServiceImpl filmService;
@@ -35,5 +37,21 @@ public class FilmController {
     @GetMapping(value = "addFilms")
     public void addFilms() throws IOException {
         filmService.addManyFilms();
+    }
+
+    @GetMapping(value = "addToFavorite")
+    public void addToFavorite(@RequestParam(name = "id", required = true) Integer id){
+
+        filmService.addToFavorite(id);
+    }
+
+    @GetMapping(value = "deleteFromFavorite")
+    public void deleteFromFavorite(@RequestParam(name = "id", required = true) Integer id){
+        filmService.deleteFromFavorite(id);
+    }
+
+    @GetMapping(value = "favoriteFilms",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<FilmFavorite> favoriteFilms(){
+        return filmService.getFavoriteFilms();
     }
 }
